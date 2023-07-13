@@ -2,25 +2,13 @@ using UnityEngine;
 
 namespace YoYo.SpaceShooter.Enemy
 {
-    public class EnemyOrange : EnemyController
+    public class EnemyOrange : Enemy
     {
         private const float rotationSpeed = 30f;
 
-        private void Start()
-        {
-            enemyHealth = 1;
-            enemySpeed = 2;
-            enemyScore = 300;
-        }
-
-        private void FixedUpdate()
+        private void Update()
         {
             MoveAndRotateTowardsPlayer();
-        }
-
-        private void OnDestroy()
-        {
-            UpdateScore(enemyScore);
         }
 
         private void MoveAndRotateTowardsPlayer()

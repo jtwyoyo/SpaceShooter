@@ -13,12 +13,11 @@ namespace YoYo.SpaceShooter.SpaceShip
         private float invisibleEndTime;
 
         private SpriteRenderer spriteRenderer;
-        private UIManager uiManager;
+        [SerializeField] private UIManager uiManager;
 
-        private void Start()
+        private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
-            uiManager = FindObjectOfType<UIManager>();
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

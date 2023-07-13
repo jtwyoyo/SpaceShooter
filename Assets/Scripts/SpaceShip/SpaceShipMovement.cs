@@ -4,9 +4,9 @@ namespace YoYo.SpaceShooter.SpaceShip
 {
     public class SpaceShipMovement : MonoBehaviour
     {
-        [SerializeField] private const float speed = 5f;
+        private const float speed = 5f;
 
-        void Update()
+        private void Update()
         {
             HandleMovement();
         }

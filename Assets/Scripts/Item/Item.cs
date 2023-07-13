@@ -3,7 +3,7 @@ using YoYo.SpaceShooter.SpaceShip;
 
 namespace YoYo.SpaceShooter.Item
 { 
-    public class ItemPickUp : MonoBehaviour
+    public class Item : MonoBehaviour
     {
         private void Update()
         {
@@ -17,10 +17,9 @@ namespace YoYo.SpaceShooter.Item
         {
             if (collision.CompareTag("Player"))
             {
-                SpaceShipShooting spaceShipShooting = collision.gameObject.GetComponent<SpaceShipShooting>();
-                if (spaceShipShooting != null)
+                if (collision.gameObject.TryGetComponent(out SpaceShipShooting spaceShipShooting))
                 {
-                    spaceShipShooting.hasShotgun = true;
+                    spaceShipShooting.availableWeapons.Add(SpaceShipShooting.WeaponType.Shotgun);
                 }
 
                 Destroy(gameObject);
