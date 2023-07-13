@@ -7,31 +7,12 @@ namespace YoYo.SpaceShooter.Enemy
     public class Enemy : MonoBehaviour
     {
         protected bool destroyByPlayer = false;
-
         [SerializeField]  protected float enemyHealth;
         [SerializeField]  protected float enemySpeed;
         [SerializeField]  protected int enemyScore;
-        [SerializeField] private UIManager uiManager;
 
-        private bool isOutSideBoundary;
-
-        private const float boundaryBottom = -3f;
-        private const float boundaryTop = 43f;
-        private const float boundaryLeft = -23f;
-        private const float boundaryRight = 23f;
-
-        private void Awake()
-        {
-            isOutSideBoundary = transform.position.y < boundaryBottom || transform.position.y > boundaryTop || transform.position.x < boundaryLeft || transform.position.x > boundaryRight;
-        }
-
-        protected void Update()
-        {
-            if (isOutSideBoundary)
-            {
-                Destroy(gameObject);
-            }
-        }
+        [SerializeField] private Manager.BoundaryManager boundaryManager;
+        [SerializeField] private Manager.TextManager textManager;
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
@@ -50,7 +31,7 @@ namespace YoYo.SpaceShooter.Enemy
         {
             if (destroyByPlayer)
             {
-                uiManager.AddScore(enemyScore); ;
+                textManager.AddScore(enemyScore); ;
             }
         }
 

@@ -5,13 +5,7 @@ namespace YoYo.SpaceShooter.Item
 { 
     public class Item : MonoBehaviour
     {
-        private void Update()
-        {
-            if (transform.position.y < -2f)
-            {
-                Destroy(gameObject);
-            }
-        }
+        [SerializeField] private Manager.BoundaryManager boundaryManager;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {

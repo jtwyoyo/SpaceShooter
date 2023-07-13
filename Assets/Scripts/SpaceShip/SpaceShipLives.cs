@@ -13,7 +13,8 @@ namespace YoYo.SpaceShooter.SpaceShip
         private float invisibleEndTime;
 
         private SpriteRenderer spriteRenderer;
-        [SerializeField] private UIManager uiManager;
+        [SerializeField] private Manager.GameOverManager gameOverManager;
+        [SerializeField] private Manager.TextManager textManager;
 
         private void Awake()
         {
@@ -32,7 +33,11 @@ namespace YoYo.SpaceShooter.SpaceShip
 
                 invisibleEndTime = Time.time + invincibleDuration;
 
-                uiManager.UpdateLives(lives);
+                textManager.UpdateLivesText();
+                if (lives <= 0)
+                {
+                    gameOverManager.GameOver();
+                }
             }
         }
 
@@ -44,11 +49,6 @@ namespace YoYo.SpaceShooter.SpaceShip
 
                 Color currentColor = spriteRenderer.color;
                 spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, 1f);
-            }
-
-            if (lives <= 0)
-            {
-                SceneManager.LoadScene("GameOverScene");
             }
         }
     }
