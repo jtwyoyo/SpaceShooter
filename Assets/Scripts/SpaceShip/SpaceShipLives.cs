@@ -1,23 +1,29 @@
+using System;
 using UnityEngine;
 
 namespace YoYo.SpaceShooter.SpaceShip
 {
     public class SpaceShipLives : MonoBehaviour
     {
-        public int lives = 3;
-        private bool invincible = false;
+        public int lives;
+        private bool invincible;
 
         private const float invincibleDuration = 3f;
         private const float transparency = 0.5f;
         private float invisibleEndTime;
 
         private SpriteRenderer spriteRenderer;
-        [SerializeField] private Manager.GameOverManager gameOverManager;
-        [SerializeField] private Manager.UIManager uiManager;
+        private Manager.GameOverManager gameOverManager;
+        private Manager.UIManager uiManager;
 
         private void Awake()
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
+            gameOverManager = FindFirstObjectByType<Manager.GameOverManager>();
+            uiManager = FindFirstObjectByType<Manager.UIManager>();
+            lives = 3;
+            invincible = false;
+            uiManager.UpdateLivesText(lives);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -32,7 +38,8 @@ namespace YoYo.SpaceShooter.SpaceShip
 
                 invisibleEndTime = Time.time + invincibleDuration;
 
-                uiManager.UpdateLivesText();
+                uiManager.UpdateLivesText(lives);
+                Console.WriteLine(lives);
                 if (lives <= 0)
                 {
                     gameOverManager.GameOver();

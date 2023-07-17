@@ -7,7 +7,7 @@ namespace YoYo.SpaceShooter.Manager
     {
         private void Update()
         {
-            if (SceneManager.GetActiveScene().Equals("MainMenuScene") && Input.anyKey)
+            if (SceneManager.GetActiveScene().name.Equals("MainMenuScene") && Input.anyKey)
             {
                 StartGame();
             }

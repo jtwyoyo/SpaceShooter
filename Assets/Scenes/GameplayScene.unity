@@ -969,6 +969,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 1171256056}
   livesText: {fileID: 1648280138}
+  spaceshipLives: {fileID: 5621819290609820961, guid: 104ad125078149c4dbd294447676ed59, type: 3}
 --- !u!4 &2110956473
 Transform:
   m_ObjectHideFlags: 0

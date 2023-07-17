@@ -6,18 +6,11 @@ namespace YoYo.SpaceShooter.Manager
     {
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI livesText;
-        
-        private SpaceShip.SpaceShipLives spaceshipLives;
+        [SerializeField] private SpaceShip.SpaceShipLives spaceshipLives;
 
-        private void Awake()
+        public void UpdateLivesText(int lives)
         {
-            spaceshipLives = FindObjectOfType<SpaceShip.SpaceShipLives>();
-            UpdateLivesText();
-        }
-
-        public void UpdateLivesText()
-        {
-            livesText.text = "Lives: " + spaceshipLives.lives.ToString();
+            livesText.text = "Lives: " + lives.ToString();
         }
 
         public void UpdateScoreText(int score)
