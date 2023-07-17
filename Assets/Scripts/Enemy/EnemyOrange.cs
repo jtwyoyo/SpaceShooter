@@ -18,11 +18,11 @@ namespace YoYo.SpaceShooter.Enemy
             {
                 Vector3 direction = player.transform.position - transform.position;
                 direction.Normalize();
-                Vector3 movement = direction * enemySpeed * Time.fixedDeltaTime;
+                Vector3 movement = direction * enemySpeed * Time.deltaTime;
                 transform.position += movement;
 
                 Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, -direction);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             }
         }
     }

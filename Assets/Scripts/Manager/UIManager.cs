@@ -1,30 +1,18 @@
 using UnityEngine;
 using TMPro;
-using System;
-using UnityEngine.SceneManagement;
-
 namespace YoYo.SpaceShooter.Manager
 {
-    public class TextManager : MonoBehaviour
+    public class UIManager : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI livesText;
-        [SerializeField] private SpaceShip.SpaceShipLives spaceshipLives;
-
-        private int score;
+        
+        private SpaceShip.SpaceShipLives spaceshipLives;
 
         private void Awake()
         {
-            score = 0;
-
-            UpdateScoreText();
+            spaceshipLives = FindObjectOfType<SpaceShip.SpaceShipLives>();
             UpdateLivesText();
-        }
-
-        public void AddScore(int points)
-        {
-            score += points;
-            UpdateScoreText();
         }
 
         public void UpdateLivesText()
@@ -32,7 +20,7 @@ namespace YoYo.SpaceShooter.Manager
             livesText.text = "Lives: " + spaceshipLives.lives.ToString();
         }
 
-        private void UpdateScoreText()
+        public void UpdateScoreText(int score)
         {
             scoreText.text = "Score: " + score.ToString();
         }

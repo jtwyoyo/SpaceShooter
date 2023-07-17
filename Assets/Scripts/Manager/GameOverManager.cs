@@ -9,7 +9,7 @@ namespace YoYo.SpaceShooter.Manager
     {
         private void Update()
         {
-            if (SceneManager.GetActiveScene().buildIndex.Equals(2) && Input.anyKey)
+            if (SceneManager.GetActiveScene().Equals("GameOverScene") && Input.anyKey)
             {
                 BackToMainMenu();
             }
@@ -17,12 +17,12 @@ namespace YoYo.SpaceShooter.Manager
 
         public void GameOver()
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene("GameOverScene");
         }
 
         private void BackToMainMenu()
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("MainMenuScene");
         }
     }
 }

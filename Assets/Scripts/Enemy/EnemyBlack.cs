@@ -5,7 +5,6 @@ namespace YoYo.SpaceShooter.Enemy
     public class EnemyBlack : Enemy
     {
         [SerializeField] private GameObject shotgunItemPrefab;
-        [SerializeField] private GameObject player;
 
         private void Update()
         {
@@ -14,10 +13,14 @@ namespace YoYo.SpaceShooter.Enemy
 
         private void MoveTowardsPlayer()
         {
-            Vector3 direction = player.transform.position - transform.position;
-            direction.Normalize();
-            Vector3 movement = direction * enemySpeed * Time.fixedDeltaTime;
-            transform.position += movement;
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                Vector3 direction = player.transform.position - transform.position;
+                direction.Normalize();
+                Vector3 movement = direction * enemySpeed * Time.deltaTime;
+                transform.position += movement;
+            }
         }
 
         private void OnDestroy()

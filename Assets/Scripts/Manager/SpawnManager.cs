@@ -36,15 +36,15 @@ namespace YoYo.SpaceShooter.Manager
             switch (pattern)
             {
                 case 1:
-                    SpawnPattern("Pattern1");
+                    SpawnPattern(SpawnPositionManager.Patterns.Pattern1);
                     waveCooldown = 1f;
                     break;
                 case 2:
-                    SpawnPattern("Pattern2");
+                    SpawnPattern(SpawnPositionManager.Patterns.Pattern2);
                     waveCooldown = 1.5f;
                     break;
                 case 3:
-                    SpawnPattern("Pattern3");
+                    SpawnPattern(SpawnPositionManager.Patterns.Pattern3);
                     waveCooldown = 4f;
                     break;
             }
@@ -60,13 +60,15 @@ namespace YoYo.SpaceShooter.Manager
             Instantiate(spaceshipPrefab, position, Quaternion.identity);
         }
 
-        private void SpawnPattern(string patternKey)
+        private void SpawnPattern(SpawnPositionManager.Patterns patternKey)
         {
-            if (spawnPositions.spawnPatterns.TryGetValue(patternKey, out List<Vector3> positions))
+            if (spawnPositions.spawnPatterns.TryGetValue(patternKey, out List<SpawnPositionManager.SpawnData> spawnDataList))
             {
-                foreach (Vector3 position in positions)
+                foreach (SpawnPositionManager.SpawnData spawnData in spawnDataList)
                 {
-                    SpawnEnemy(greenEnemyPrefab, position);
+                    if (spawnData.enemyType.Equals(0)) SpawnEnemy(greenEnemyPrefab, spawnData.position);
+                    if (spawnData.enemyType.Equals(1)) SpawnEnemy(orangeEnemyPrefab, spawnData.position);
+                    if (spawnData.enemyType.Equals(2)) SpawnEnemy(blackEnemyPrefab, spawnData.position); ;
                 }
             }
         }

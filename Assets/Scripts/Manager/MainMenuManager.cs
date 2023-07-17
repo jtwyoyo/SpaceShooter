@@ -7,14 +7,15 @@ namespace YoYo.SpaceShooter.Manager
     {
         private void Update()
         {
-            if (SceneManager.GetActiveScene().buildIndex.Equals(0) && Input.anyKey)
+            if (SceneManager.GetActiveScene().Equals("MainMenuScene") && Input.anyKey)
             {
                 StartGame();
             }
         }
+
         private void StartGame()
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("GameplayScene");
         }
     }
 }

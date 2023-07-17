@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace YoYo.SpaceShooter.SpaceShip
 {
@@ -14,7 +13,7 @@ namespace YoYo.SpaceShooter.SpaceShip
 
         private SpriteRenderer spriteRenderer;
         [SerializeField] private Manager.GameOverManager gameOverManager;
-        [SerializeField] private Manager.TextManager textManager;
+        [SerializeField] private Manager.UIManager uiManager;
 
         private void Awake()
         {
@@ -33,7 +32,7 @@ namespace YoYo.SpaceShooter.SpaceShip
 
                 invisibleEndTime = Time.time + invincibleDuration;
 
-                textManager.UpdateLivesText();
+                uiManager.UpdateLivesText();
                 if (lives <= 0)
                 {
                     gameOverManager.GameOver();

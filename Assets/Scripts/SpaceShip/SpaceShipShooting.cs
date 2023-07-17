@@ -5,13 +5,17 @@ namespace YoYo.SpaceShooter.SpaceShip
 {
     public class SpaceShipShooting : MonoBehaviour
     {
+        public enum WeaponType
+        {
+            Normal,
+            Shotgun
+        }
+
+        public List<WeaponType> availableWeapons = new List<WeaponType>();
         [SerializeField] private GameObject normalBulletPrefab;
         [SerializeField] private GameObject shotgunBulletPrefab;
         [SerializeField] private Transform bulletSpawnPoint;
-
         private float nextShootTime;
-
-        public List<WeaponType> availableWeapons = new List<WeaponType>();
         private int currentWeaponIndex;
         private WeaponType currentWeapon;
 
@@ -21,6 +25,7 @@ namespace YoYo.SpaceShooter.SpaceShip
             currentWeapon = WeaponType.Normal;
             currentWeaponIndex = 0;
         }
+
         private void Update()
         {
             HandleShooting();
@@ -45,7 +50,6 @@ namespace YoYo.SpaceShooter.SpaceShip
         private void ShootNormalBullet()
         {
             GameObject bullet = Instantiate(normalBulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-            bullet.transform.position += Vector3.up * 5f * Time.deltaTime;
 
             nextShootTime = Time.time + 0.25f;
         }
@@ -62,7 +66,6 @@ namespace YoYo.SpaceShooter.SpaceShip
                 Vector2 spreadDirection = rotation * Vector2.up;
 
                 GameObject bullet = Instantiate(shotgunBulletPrefab, bulletSpawnPoint.position, rotation);
-                bullet.transform.position += (Vector3)(spreadDirection * 7.5f * Time.deltaTime);
             }
 
             nextShootTime = Time.time + 0.5f;
@@ -75,12 +78,6 @@ namespace YoYo.SpaceShooter.SpaceShip
                 currentWeaponIndex = (currentWeaponIndex + 1) % availableWeapons.Count;
                 currentWeapon = availableWeapons[currentWeaponIndex];
             }
-        }
-
-        public enum WeaponType
-        {
-            Normal,
-            Shotgun
         }
     }
 }
