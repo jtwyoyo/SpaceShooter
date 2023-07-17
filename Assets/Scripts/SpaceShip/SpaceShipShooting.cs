@@ -49,8 +49,7 @@ namespace YoYo.SpaceShooter.SpaceShip
 
         private void ShootNormalBullet()
         {
-            GameObject bullet = Instantiate(normalBulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-
+            Instantiate(normalBulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
             nextShootTime = Time.time + 0.25f;
         }
 
@@ -63,9 +62,7 @@ namespace YoYo.SpaceShooter.SpaceShip
             {
                 float angle = spreadAngle * ((float)i / (numBullets - 1) - 0.5f);
                 Quaternion rotation = Quaternion.Euler(0f, 0f, angle);
-                Vector2 spreadDirection = rotation * Vector2.up;
-
-                GameObject bullet = Instantiate(shotgunBulletPrefab, bulletSpawnPoint.position, rotation);
+                Instantiate(shotgunBulletPrefab, bulletSpawnPoint.position, rotation);
             }
 
             nextShootTime = Time.time + 0.5f;
