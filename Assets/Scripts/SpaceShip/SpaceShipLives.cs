@@ -21,8 +21,6 @@ namespace YoYo.SpaceShooter.SpaceShip
             spriteRenderer = GetComponent<SpriteRenderer>();
             gameOverManager = FindFirstObjectByType<Manager.GameOverManager>();
             uiManager = FindFirstObjectByType<Manager.UIManager>();
-            lives = 3;
-            invincible = false;
             uiManager.UpdateLivesText(lives);
         }
 
@@ -39,7 +37,6 @@ namespace YoYo.SpaceShooter.SpaceShip
                 invisibleEndTime = Time.time + invincibleDuration;
 
                 uiManager.UpdateLivesText(lives);
-                Console.WriteLine(lives);
                 if (lives <= 0)
                 {
                     gameOverManager.GameOver();

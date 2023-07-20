@@ -11,29 +11,20 @@ namespace YoYo.SpaceShooter.Enemy
 
         private Manager.Manager manager;
 
-        private void Awake()
+        public void SetManager(Manager.Manager _manager)
         {
-            manager = FindObjectOfType<Manager.Manager>();
+            manager = _manager;
         }
 
         protected void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.CompareTag("NormalBullet") || collision.CompareTag("ShotgunBullet"))
+            Bullet.Bullet bullet = collision.GetComponent<Bullet.Bullet>();
+            enemyHealth -= bullet.damage;
+            if (enemyHealth <= 0)
             {
-                Bullet.Bullet bullet = collision.GetComponent<Bullet.Bullet>();
-                if (bullet != null)
-                {
-                    if (bullet.bulletDamageMap.TryGetValue(collision.tag, out float damage))
-                    {
-                        enemyHealth -= damage;
-                        if (enemyHealth <= 0)
-                        {
-                            destroyByPlayer = true;
-                            manager.AddScore(enemyScore);
-                            Destroy(gameObject);
-                        }
-                    }
-                }
+                destroyByPlayer = true;
+                manager.AddScore(enemyScore);
+                Destroy(gameObject);
             }
         }
     }

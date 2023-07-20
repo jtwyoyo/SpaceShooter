@@ -6,10 +6,9 @@ namespace YoYo.SpaceShooter.Manager
     public class SpawnManager : MonoBehaviour
     {
         [SerializeField] private GameObject spaceshipPrefab;
-        [SerializeField] private GameObject greenEnemyPrefab;
-        [SerializeField] private GameObject blackEnemyPrefab;
-        [SerializeField] private GameObject orangeEnemyPrefab;
+        [SerializeField] private GameObject[] enemyPrefabs;
         [SerializeField] private SpawnPositionManager spawnPositions;
+        [SerializeField] private Manager manager;
 
         private float waveCooldown = 2f;
         private float nextWaveTime;
@@ -31,28 +30,31 @@ namespace YoYo.SpaceShooter.Manager
 
         private void SpawnNextWave()
         {
-            int pattern = Random.Range(1, 4);
+            SpawnPositionManager.Patterns pattern = (SpawnPositionManager.Patterns)Random.Range(0, 2);
 
             switch (pattern)
             {
-                case 1:
+                case SpawnPositionManager.Patterns.Pattern1:
                     SpawnPattern(SpawnPositionManager.Patterns.Pattern1);
                     waveCooldown = 1f;
                     break;
-                case 2:
+                case SpawnPositionManager.Patterns.Pattern2:
                     SpawnPattern(SpawnPositionManager.Patterns.Pattern2);
                     waveCooldown = 1.5f;
                     break;
-                case 3:
+                case SpawnPositionManager.Patterns.Pattern3:
                     SpawnPattern(SpawnPositionManager.Patterns.Pattern3);
                     waveCooldown = 4f;
                     break;
             }
         }
 
-        private void SpawnEnemy(GameObject enemyPrefab, Vector3 position)
+        private void SpawnEnemy(SpawnPositionManager.EnemyType enemyType, Vector3 position)
         {
-            Instantiate(enemyPrefab, position, Quaternion.identity);
+            GameObject enemyPrefab = enemyPrefabs[(int)enemyType];
+            GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+            Enemy.Enemy enemyScript = enemy.GetComponent<Enemy.Enemy>();
+            enemyScript.SetManager(manager);
         }
 
         private void SpawnPlayer(GameObject spaceshipPrefab, Vector3 position)
@@ -66,9 +68,7 @@ namespace YoYo.SpaceShooter.Manager
             {
                 foreach (SpawnPositionManager.SpawnData spawnData in spawnDataList)
                 {
-                    if (spawnData.enemyType.Equals(0)) SpawnEnemy(greenEnemyPrefab, spawnData.position);
-                    if (spawnData.enemyType.Equals(1)) SpawnEnemy(orangeEnemyPrefab, spawnData.position);
-                    if (spawnData.enemyType.Equals(2)) SpawnEnemy(blackEnemyPrefab, spawnData.position); ;
+                    SpawnEnemy(spawnData.enemyType, spawnData.position);
                 }
             }
         }

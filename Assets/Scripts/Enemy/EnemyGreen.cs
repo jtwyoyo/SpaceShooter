@@ -4,7 +4,6 @@ namespace YoYo.SpaceShooter.Enemy
 {
     public class EnemyGreen : Enemy
     {
-
         private void Update()
         {
             MoveDownward();

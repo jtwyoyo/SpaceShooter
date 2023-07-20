@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace YoYo.SpaceShooter.Manager
 {
-    public class BoundaryManager : MonoBehaviour
+    public class BoundaryHandleComponent : MonoBehaviour
     {
         private const float boundaryBottom = -3f;
         private const float boundaryTop = 43f;

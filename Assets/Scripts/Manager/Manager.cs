@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace YoYo.SpaceShooter.Manager
@@ -9,7 +10,6 @@ namespace YoYo.SpaceShooter.Manager
 
         private void Awake()
         {
-            uiManager = FindObjectOfType<UIManager>();
             score = 0;
             AddScore(0);
         }

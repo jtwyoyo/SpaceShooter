@@ -1,12 +1,13 @@
 using UnityEngine;
 using TMPro;
+using YoYo.SpaceShooter.SpaceShip;
+
 namespace YoYo.SpaceShooter.Manager
 {
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI scoreText;
         [SerializeField] private TextMeshProUGUI livesText;
-        [SerializeField] private SpaceShip.SpaceShipLives spaceshipLives;
 
         public void UpdateLivesText(int lives)
         {
