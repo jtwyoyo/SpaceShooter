@@ -2,26 +2,11 @@ using UnityEngine;
 
 namespace YoYo.SpaceShooter.Enemy
 {
-    public class EnemyGreen : EnemyController
+    public class EnemyGreen : Enemy
     {
-        private void Start()
-        {
-            enemyHealth = 1;
-            enemySpeed = 5;
-            enemyScore = 100;
-        }
-
-        private void FixedUpdate()
+        private void Update()
         {
             MoveDownward();
-        }
-
-        private void OnDestroy()
-        {
-            if (destroyByPlayer)
-            {
-                UpdateScore(enemyScore);
-            }
         }
 
         private void MoveDownward()

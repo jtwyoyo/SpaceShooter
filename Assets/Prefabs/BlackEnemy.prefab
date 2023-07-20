@@ -171,4 +171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eb990ab4aa6acb46b96e3ab87366cca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyHealth: 3
+  enemySpeed: 1
+  enemyScore: 400
   shotgunItemPrefab: {fileID: 518883889639825512, guid: 71ec44414ed4e3f4b90128ae2336a9b6, type: 3}

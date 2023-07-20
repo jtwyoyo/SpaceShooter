@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace YoYo.SpaceShooter.Manager
@@ -5,14 +6,14 @@ namespace YoYo.SpaceShooter.Manager
     public class SpawnManager : MonoBehaviour
     {
         [SerializeField] private GameObject spaceshipPrefab;
-        [SerializeField] private GameObject greenEnemyPrefab;
-        [SerializeField] private GameObject blackEnemyPrefab;
-        [SerializeField] private GameObject orangeEnemyPrefab;
-        
+        [SerializeField] private GameObject[] enemyPrefabs;
+        [SerializeField] private SpawnPositionManager spawnPositions;
+        [SerializeField] private Manager manager;
+
         private float waveCooldown = 2f;
         private float nextWaveTime;
 
-        private void Start()
+        private void Awake()
         {
             SpawnPlayer(spaceshipPrefab, new Vector3(0f, 0f, 0f));
             nextWaveTime = Time.time;
@@ -29,28 +30,31 @@ namespace YoYo.SpaceShooter.Manager
 
         private void SpawnNextWave()
         {
-            int pattern = Random.Range(1, 4);
+            SpawnPositionManager.Patterns pattern = (SpawnPositionManager.Patterns)Random.Range(0, 2);
 
             switch (pattern)
             {
-                case 1:
-                    SpawnPattern1();
+                case SpawnPositionManager.Patterns.Pattern1:
+                    SpawnPattern(SpawnPositionManager.Patterns.Pattern1);
                     waveCooldown = 1f;
                     break;
-                case 2:
-                    SpawnPattern2();
+                case SpawnPositionManager.Patterns.Pattern2:
+                    SpawnPattern(SpawnPositionManager.Patterns.Pattern2);
                     waveCooldown = 1.5f;
                     break;
-                case 3:
-                    SpawnPattern3();
+                case SpawnPositionManager.Patterns.Pattern3:
+                    SpawnPattern(SpawnPositionManager.Patterns.Pattern3);
                     waveCooldown = 4f;
                     break;
             }
         }
 
-        private void SpawnEnemy(GameObject enemyPrefab, Vector3 position)
+        private void SpawnEnemy(SpawnPositionManager.EnemyType enemyType, Vector3 position)
         {
-            Instantiate(enemyPrefab, position, Quaternion.identity);
+            GameObject enemyPrefab = enemyPrefabs[(int)enemyType];
+            GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+            Enemy.Enemy enemyScript = enemy.GetComponent<Enemy.Enemy>();
+            enemyScript.SetManager(manager);
         }
 
         private void SpawnPlayer(GameObject spaceshipPrefab, Vector3 position)
@@ -58,45 +62,15 @@ namespace YoYo.SpaceShooter.Manager
             Instantiate(spaceshipPrefab, position, Quaternion.identity);
         }
 
-        private void SpawnPattern1()
+        private void SpawnPattern(SpawnPositionManager.Patterns patternKey)
         {
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-17.541f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-12.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-7.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-2.541f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(2.541f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(7.541f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(12.541f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(17.5f, 41f, 0f));
-        }
-
-        private void SpawnPattern2()
-        {
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-17.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-12.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-2.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(2.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(12.5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(17.5f, 41f, 0f));
-            SpawnEnemy(blackEnemyPrefab, new Vector3(-7.5f, 41f, 0f));
-            SpawnEnemy(blackEnemyPrefab, new Vector3(7.5f, 41f, 0f));
-        }
-
-        private void SpawnPattern3()
-        {
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-5f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-4f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-3f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-2f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(-1f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(0f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(1f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(2f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(3f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(4f, 41f, 0f));
-            SpawnEnemy(greenEnemyPrefab, new Vector3(5f, 41f, 0f));
-            SpawnEnemy(orangeEnemyPrefab, new Vector3(-10f, 41f, 0f));
-            SpawnEnemy(orangeEnemyPrefab, new Vector3(10f, 41f, 0f));
+            if (spawnPositions.spawnPatterns.TryGetValue(patternKey, out List<SpawnPositionManager.SpawnData> spawnDataList))
+            {
+                foreach (SpawnPositionManager.SpawnData spawnData in spawnDataList)
+                {
+                    SpawnEnemy(spawnData.enemyType, spawnData.position);
+                }
+            }
         }
     }
 }

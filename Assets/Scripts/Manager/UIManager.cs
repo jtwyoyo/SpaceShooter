@@ -1,42 +1,22 @@
 using UnityEngine;
 using TMPro;
+using YoYo.SpaceShooter.SpaceShip;
 
-public class UIManager : MonoBehaviour
+namespace YoYo.SpaceShooter.Manager
 {
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI livesText;
-
-    private int score;
-    private int lives;
-
-    private void Start()
+    public class UIManager : MonoBehaviour
     {
-        score = 0;
-        lives = 3;
+        [SerializeField] private TextMeshProUGUI scoreText;
+        [SerializeField] private TextMeshProUGUI livesText;
 
-        UpdateScoreText();
-        UpdateLivesText();
-    }
+        public void UpdateLivesText(int lives)
+        {
+            livesText.text = "Lives: " + lives.ToString();
+        }
 
-    public void AddScore(int points)
-    {
-        score += points;
-        UpdateScoreText();
-    }
-
-    public void UpdateLives(int newLives)
-    {
-        lives = newLives;
-        UpdateLivesText();
-    }
-
-    private void UpdateScoreText()
-    {
-        scoreText.text = "Score: " + score.ToString();
-    }
-
-    private void UpdateLivesText()
-    {
-        livesText.text = "Lives: " + lives.ToString();
+        public void UpdateScoreText(int score)
+        {
+            scoreText.text = "Score: " + score.ToString();
+        }
     }
 }

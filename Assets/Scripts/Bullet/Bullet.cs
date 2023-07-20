@@ -1,15 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace YoYo.SpaceShooter.Bullet
 {
-    public class BulletHit : MonoBehaviour
+    public class Bullet : MonoBehaviour
     {
-        void Update()
+        public float damage;
+        public float speed;
+
+        private void Update()
         {
-            if (transform.position.y > 40f)
-            {
-                Destroy(gameObject);
-            }
+            transform.position += Vector3.up * speed * Time.deltaTime;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

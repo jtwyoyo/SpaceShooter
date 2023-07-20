@@ -1,22 +1,31 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace YoYo.SpaceShooter.SpaceShip
 {
     public class SpaceShipShooting : MonoBehaviour
     {
+        public enum WeaponType
+        {
+            Normal,
+            Shotgun
+        }
+
+        public List<WeaponType> availableWeapons = new List<WeaponType>();
         [SerializeField] private GameObject normalBulletPrefab;
         [SerializeField] private GameObject shotgunBulletPrefab;
         [SerializeField] private Transform bulletSpawnPoint;
-
-        private string weapon;
         private float nextShootTime;
-        public bool hasShotgun { get; set; }
+        private int currentWeaponIndex;
+        private WeaponType currentWeapon;
 
-        private void Start()
+        private void Awake()
         {
-            weapon = "Normal";
-            hasShotgun = false;
+            availableWeapons.Add(WeaponType.Normal);
+            currentWeapon = WeaponType.Normal;
+            currentWeaponIndex = 0;
         }
+
         private void Update()
         {
             HandleShooting();
@@ -27,11 +36,11 @@ namespace YoYo.SpaceShooter.SpaceShip
         {
             if (Time.time >= nextShootTime)
             {
-                if (Input.GetKeyDown(KeyCode.Space) && weapon == "Normal")
+                if (Input.GetKeyDown(KeyCode.Space) && currentWeapon == WeaponType.Normal)
                 {
                     ShootNormalBullet();
                 }
-                else if (Input.GetKeyDown(KeyCode.Space) && weapon == "Shotgun")
+                else if (Input.GetKeyDown(KeyCode.Space) && currentWeapon == WeaponType.Shotgun)
                 {
                     ShootShotgunBullets();
                 }
@@ -41,7 +50,8 @@ namespace YoYo.SpaceShooter.SpaceShip
         private void ShootNormalBullet()
         {
             GameObject bullet = Instantiate(normalBulletPrefab, bulletSpawnPoint.position, Quaternion.identity);
-            bullet.GetComponent<Rigidbody2D>().velocity = Vector2.up * 5f;
+            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+            bulletRigidbody.velocity = Vector2.up * 5f;
 
             nextShootTime = Time.time + 0.25f;
         }
@@ -58,7 +68,8 @@ namespace YoYo.SpaceShooter.SpaceShip
                 Vector2 spreadDirection = rotation * Vector2.up;
 
                 GameObject bullet = Instantiate(shotgunBulletPrefab, bulletSpawnPoint.position, rotation);
-                bullet.GetComponent<Rigidbody2D>().velocity = spreadDirection * 7.5f;
+                Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+                bulletRigidbody.velocity = spreadDirection * 7.5f;
             }
 
             nextShootTime = Time.time + 0.5f;
@@ -66,13 +77,10 @@ namespace YoYo.SpaceShooter.SpaceShip
 
         private void HandleWeaponSwap()
         {
-            if (Input.GetKeyDown(KeyCode.Tab) && hasShotgun && weapon == "Normal")
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                weapon = "Shotgun";
-            } 
-            else if (Input.GetKeyDown(KeyCode.Tab) && weapon == "Shotgun")
-            {
-                weapon = "Normal";
+                currentWeaponIndex = (currentWeaponIndex + 1) % availableWeapons.Count;
+                currentWeapon = availableWeapons[currentWeaponIndex];
             }
         }
     }
